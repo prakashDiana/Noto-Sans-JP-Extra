@@ -1,7 +1,7 @@
 # Noto Sans JP Extra
 (c) 2024, dp.
 
-NO EDITING ALLOWED..
+~~NO EDITING ALLOWED..~~
 
 **Based on Noto Sans JP**
 
