@@ -170,3 +170,9 @@ Don't do this!
 \`Hello, World!\'
 
 \``Hello, World!\''
+
+ !"\#\$\%\&\'\(\)*+,-.\/0123456789\:;\<=\>?
+
+@ABCDEFGHIJKLMNOPQRSTUVWXYZ\[\\\]\^\_
+
+\`abcdefghijklmnopqrstuvwxyz\{\|\}\~
