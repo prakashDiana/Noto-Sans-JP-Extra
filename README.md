@@ -167,6 +167,6 @@ Don't do this!
 
 ----
 
-`Hello, World!'
+\`Hello, World!\'
 
-``Hello, World!''
+\``Hello, World!\''
