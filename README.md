@@ -184,3 +184,7 @@ Don't do this!
 @ABCDEFGHIJKLMNOPQRSTUVWXYZ\[\\\]^\_
 
 \`abcdefghijklmnopqrstuvwxyz\{\|\}\~
+
+----
+
+&#xFFFF; &#x20AC; &#xFFFF; &#xFFFF; &#x2044; &#x02D9; &#x02DD; &#x02DB;
