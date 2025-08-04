@@ -188,3 +188,5 @@ Don't do this!
 ----
 
 &#xFFFF; &#x20AC; &#xFFFF; &#xFFFF; &#x2044; &#x02D9; &#x02DD; &#x02DB;
+
+fl       &#xFFFF; &#x200B; ff       fi       &#xFFFF; ffi      ffl
