@@ -190,3 +190,7 @@ Don't do this!
 &#xFFFF; &#x20AC; &#xFFFF; &#xFFFF; &#x2044; &#x02D9; &#x02DD; &#x02DB;
 
 fl       &#xFFFF; &#x200B; ff       fi       &#xFFFF; ffi      ffl
+
+&#x0131; &#x0237; &#x0060; &#x00B4; &#x02C7; &#x02D8; &#x00AF; &#x02DA;
+
+&#x00B8; &#x00DF; &#x00E6; &#x0153; &#x00F7; &#x00C6; &#x0152; &#x00D7;
