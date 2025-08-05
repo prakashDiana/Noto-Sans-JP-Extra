@@ -251,4 +251,6 @@ x        y        z        \{       \|       \}       &#x02DC; &#x00A8;
 
 &#x00F8; &#x00F9; &#x00FA; &#x00FB; &#x00FC; &#x00FD; &#x00FE; &#x00FF;
 
-**THIS SITE IS NOT OPEN SOURCE -- DO NOT EDIT**
+> [!IMPORTANT] **THIS SITE IS NOT OPEN SOURCE -- DO NOT EDIT**
+>
+> WE CAN MAKE CHANGES IF WE WANT TO. OTHER FILES ARE OPEN SOURCE.
