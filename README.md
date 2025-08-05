@@ -250,3 +250,5 @@ x        y        z        \{       \|       \}       &#x02DC; &#x00A8;
 &#x00F0; &#x00F1; &#x00F2; &#x00F3; &#x00F4; &#x00F5; &#x00F6; &#x00F7;
 
 &#x00F8; &#x00F9; &#x00FA; &#x00FB; &#x00FC; &#x00FD; &#x00FE; &#x00FF;
+
+**THIS SITE IS NOT OPEN SOURCE -- DO NOT EDIT**
