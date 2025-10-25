@@ -255,3 +255,120 @@ x        y        z        \{       \|       \}       &#x02DC; &#x00A8;
 > **THIS SITE IS NOT OPEN SOURCE -- DO NOT EDIT**
 > 
 > WE CAN MAKE CHANGES IF WE WANT TO. OTHER FILES ARE OPEN SOURCE.
+
+You're diving into an advanced and very relevant topic for web typography and mathematical display\! Combining SF Pro Rounded for general text and STIX Two Math for equations **via MathJax and MathML embedding** is absolutely possible and often a desired setup for modern web applications.
+
+Let's break down the "how" and the "embed in the web font" aspect.
+
+### The Challenge of Web Fonts for Math
+
+The core challenge when displaying math on the web, even with MathML, is that browsers need to know not just *what* characters to display, but *how* to lay them out. This "how" information (metrics for superscripts, subscripts, fraction bar thickness, operator stretching, etc.) is contained in the **OpenType `MATH` table** within a font file. Few fonts have this table, and even fewer browsers fully leverage it natively.
+
+This is where **MathJax** comes in.
+
+### Using SF Pro Rounded for General Text
+
+SF Pro Rounded is available as a web font, though its licensing from Apple is typically tied to Apple's platforms. If you have the appropriate licensing or are developing for an Apple-centric web environment, you can embed it like any other web font using `@font-face` in your CSS:
+
+```css
+@font-face {
+  font-family: 'SF Pro Rounded';
+  src: url('path/to/SF-Pro-Rounded-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  /* Add other weights/styles as needed */
+}
+
+body {
+  font-family: 'SF Pro Rounded', sans-serif;
+}
+```
+
+**Important Note on Licensing:** Be very careful about the licensing of SF Pro Rounded outside of Apple's ecosystem. Using it on a public website might violate Apple's EULA unless explicitly permitted.
+
+### Using STIX Two Math for Math Display via MathJax
+
+This is where the magic happens. MathJax is designed to handle the complex rendering of mathematical expressions on the web.
+
+1.  **MathJax's Role:** MathJax renders mathematical content (from LaTeX, MathML, or AsciiMath) into HTML/CSS, SVG, or Native MathML (if the browser supports it well). For the HTML/CSS and SVG output, MathJax needs its *own* font data because browsers don't expose the OpenType `MATH` table information to JavaScript directly. This is why you can't just tell MathJax to use *any* font with a `MATH` table; MathJax needs pre-processed font metrics.
+
+2.  **STIX Two Math in MathJax v3:**
+
+      * **MathJax v2** had built-in support for STIX General (the predecessor to STIX Two).
+      * **MathJax v3** has a redesigned font architecture. Initially, it primarily supported the "MathJax TeX" font. However, support for **STIX Two Math** (and other OpenType math fonts) is a major goal and has been implemented or is actively being integrated into MathJax v3 (check the latest MathJax documentation, as font support continues to evolve).
+      * When MathJax v3 uses STIX Two Math, it will download its own highly optimized **web font files** (e.g., in WOFF/WOFF2 format) that it ships with or can access from a CDN. These web fonts are accompanied by the necessary font metric data that MathJax pre-generates.
+
+3.  **Configuring MathJax for STIX Two Math:**
+    You would configure MathJax in your HTML to use STIX Two Math. The exact configuration depends on your MathJax version and desired output.
+
+    For example, with MathJax v3, for SVG output, you might have something like (check official docs for the most current configuration):
+
+    ```html
+    <script>
+      MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']]
+        },
+        // For SVG output, where MathJax controls font rendering
+        svg: {
+          fontCache: 'global', // 'global' or 'none'
+          font: 'STIXTwoMath' // Or whatever the official MathJax name for STIX Two Math is
+        },
+        // For CommonHTML output, which also relies on MathJax's fonts
+        chtml: {
+          fontURL: 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2' // Example URL for MathJax's fonts
+        },
+        options: {
+          renderActions: {
+            add: [
+              // You might need custom rules if you want SF Pro Rounded within certain MathML elements
+              // This gets complex, usually you let MathJax handle its own math fonts.
+            ]
+          }
+        }
+      };
+    </script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js"></script>
+    ```
+
+    **Crucial Point:** When MathJax renders math (especially in HTML/CSS or SVG output), it typically takes full control of the fonts for the mathematical characters. It won't try to use your `SF Pro Rounded` for math variables or operators because `SF Pro Rounded` doesn't have the `MATH` table data MathJax needs for correct layout. MathJax will use its bundled STIX Two Math web fonts.
+
+### MathML and Web Fonts
+
+You specifically mentioned "MathML." There are two main ways MathJax interacts with MathML:
+
+1.  **MathML as Input:** MathJax can process MathML code directly and then *render it* using its own output processors (HTML/CSS, SVG). In this case, MathJax's font configuration (e.g., to use STIX Two Math) takes precedence for the rendered math.
+2.  **Native MathML Output:** Some browsers (Firefox, Safari) have native MathML rendering capabilities. If MathJax is configured for `NativeMML` output, or if you serve raw MathML without MathJax, then the browser's native MathML engine is responsible for rendering.
+      * For native MathML, you *can* try to control the math font using CSS `font-family` on `<math>` elements.
+      * **Example for Native MathML:**
+        ```css
+        @font-face {
+          font-family: 'STIX Two Math';
+          src: url('path/to/STIXTwoMath-Regular.woff2') format('woff2');
+          /* Note: You need a web-font version of STIX Two Math here */
+        }
+        math {
+          font-family: 'STIX Two Math', serif; /* Or other fallback math fonts */
+        }
+        ```
+      * **Challenges with Native MathML and Custom Fonts:**
+          * **Browser Consistency:** Native MathML rendering varies significantly across browsers (Chrome has limited native support).
+          * **Font Support:** Browsers need fonts with a proper `MATH` table to render MathML correctly. STIX Two Math is one of the best for this.
+          * **Web Font Embedding:** You would need to ensure the STIX Two Math font (and its various forms, including italics for variables) is correctly embedded as a web font.
+
+### Embedding Fonts in the Web
+
+To address "Embed in the Web Font ??":
+
+Yes, both SF Pro Rounded (for text) and STIX Two Math (for MathJax's rendering or native MathML) need to be available as **web fonts** (typically `.woff` or `.woff2` formats) and referenced via `@font-face` rules in your CSS.
+
+  * **SF Pro Rounded:** You'd link to its `woff2` files for your general `font-family` property.
+  * **STIX Two Math:**
+      * **For MathJax (recommended):** MathJax handles its own font delivery. It has pre-packaged web fonts for STIX Two Math (or its predecessors) that it downloads as needed from a CDN. You just configure MathJax to use them.
+      * **For Native MathML:** You would explicitly `@font-face` the `STIX Two Math` web font files (e.g., from the official STIX Two GitHub or a CDN that hosts them) and then apply `font-family: 'STIX Two Math';` to your `<math>` elements.
+
+**In summary:**
+
+Using **SF Pro Rounded for general text** and **STIX Two Math for math display via MathJax** is a highly effective and robust strategy for web content. MathJax's built-in font handling for STIX Two Math means it intelligently manages the complex mathematical layout. For the general text, you embed SF Pro Rounded as a regular web font. If you decide to rely on native MathML, you'd be more responsible for directly embedding STIX Two Math as a web font and configuring CSS for `<math>` elements, but this approach comes with more cross-browser compatibility challenges than using MathJax.
+
+Now this site is OPEN SOURCE! YOU CAN—
